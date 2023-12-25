@@ -1,0 +1,9 @@
+[Settings]
+Priority=Default
+
+[Default]
+DeployRoot=\\MDT01BTNHD\DeploymentShare$
+UserDomain=btnhd.local
+UserID=Administrator
+UserPassword=P@55w0rd
+SkipBDDWelcome=YES

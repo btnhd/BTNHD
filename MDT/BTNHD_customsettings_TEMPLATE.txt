@@ -1,0 +1,32 @@
+[Settings]
+Priority=Default
+
+[Default]
+_SMSTSORGNAME=BTNHD MDT DEPLOYMENT
+UserDataLocation=NONE
+ComputerBackupLocation=NETWORK
+DoCapture=YES
+OSInstall=Y
+AdminPassword=P@55w0rd
+TimeZoneName=Eastern Standard Time
+JoinWorkgroup=btnhd.local
+HideShell=NO   
+ApplyGPOPack=NO
+
+BackupShare=\\MDT01BTNHD\DeploymentShare$
+BackupDir=Captures
+BackupFile=%TaskSequenceID%_#month(date) & "-" & day(date) & "-" & year(date)#.wim
+
+SkipComputerName=YES
+SkipAdminPassword=YES
+SkipProductKey=YES
+SkipDomainMembership=YES
+SkipUserData=YES
+SkipLocaleSelection=YES
+SkipTaskSequence=NO
+SkipTimeZone=YES
+SkipBitLocker=YES
+SkipSummary=YES
+SkipRoles=YES
+SkipCapture=NO
+SkipFinalSummary=YES
