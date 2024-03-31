@@ -1,4 +1,13 @@
-﻿# Define the computer name and the path to the user profiles
+﻿<# 
+.DESCRIPTION 
+	
+.NOTES 
+    File Name  : Remove User Profile with Excluded List
+    Author     : Bernardo (BNTHD)
+.LINK 
+
+#> 
+# Define the computer name and the path to the user profiles
 $computerName = "PC02.btnhd.edu"
 $profilePath = "C:\Users"
 
