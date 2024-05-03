@@ -3,7 +3,7 @@
 	
 .NOTES 
     File Name  : Get Group List from a User's Memebership Tab
-    Author     : Bernardo (BNTHD)
+    Author     : Bernardo (BTNHD)
 .LINK 
 
 #> 

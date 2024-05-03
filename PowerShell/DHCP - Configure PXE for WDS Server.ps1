@@ -3,7 +3,7 @@
 	
 .NOTES 
     File Name  : DHCP - Configure PXE for WDS & SCCM Server
-    Author     : Bernardo (BNTHD)
+    Author     : Bernardo (BTNHD)
 .LINK 
 
 #> 

@@ -1,4 +1,13 @@
-﻿# Set the path to the root folder you want to analyze
+﻿<# 
+.DESCRIPTION 
+	
+.NOTES 
+    File Name  : Output file and folders names from root folder
+    Author     : Bernardo (BTNHD)
+.LINK 
+
+#> 
+# Set the path to the root folder you want to analyze
 $rootFolder = "C:\Users\bernardo.arocho\Desktop\FILES"
 
 # Specify the output CSV file

@@ -1,4 +1,13 @@
-﻿$computers = Get-Content "C:\BTNHD_TEMP\hosts.txt"
+﻿<# 
+.DESCRIPTION 
+	
+.NOTES 
+    File Name  : Change local administrator password
+    Author     : Bernardo (BTNHD)
+.LINK 
+
+#> 
+$computers = Get-Content "C:\BTNHD_TEMP\hosts.txt"
 $password = Read-Host "Enter New Admin Password:" -assecurestring
 $decodedpassword = [System.Runtime.InteropServices.Marshal]::PtrToStringAuto([System.Runtime.InteropServices.Marshal]::SecureStringToBSTR($password))
 

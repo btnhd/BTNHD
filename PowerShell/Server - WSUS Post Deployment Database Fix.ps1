@@ -2,8 +2,8 @@
 .DESCRIPTION 
 	
 .NOTES 
-    File Name  : 
-    Author     : Bernardo (BNTHD)
+    File Name  : WSUS Post Deployment Database Fix
+    Author     : Bernardo (BTNHD)
 .LINK 
 
 #> 

@@ -3,7 +3,7 @@
 	
 .NOTES 
     File Name  : Remove User Profile with Excluded List
-    Author     : Bernardo (BNTHD)
+    Author     : Bernardo (BTNHD)
 .LINK 
 
 #> 

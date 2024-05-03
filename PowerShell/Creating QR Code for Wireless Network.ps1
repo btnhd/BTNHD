@@ -3,7 +3,7 @@
 	
 .NOTES 
     File Name  : Creating QR Codes for Wireless Network
-    Author     : Bernardo (BNTHD)
+    Author     : Bernardo (BTNHD)
 .LINK 
 
 #> 

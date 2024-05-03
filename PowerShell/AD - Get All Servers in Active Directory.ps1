@@ -3,7 +3,7 @@
 	
 .NOTES 
     File Name  : AD - Get All Servers in Active Directory
-    Author     : Bernardo Arocho
+    Author     : Bernardo (BTNHD)
 .LINK 
 
 #> 

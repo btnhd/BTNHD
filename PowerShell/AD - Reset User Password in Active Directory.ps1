@@ -3,7 +3,7 @@
 	
 .NOTES 
     File Name  : AD - Reset User Password in Active Directory
-    Author     : Bernardo Arocho
+    Author     : Bernardo (BTNHD)
 .LINK 
 
 #> 

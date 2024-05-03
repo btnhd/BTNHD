@@ -3,7 +3,7 @@
 	
 .NOTES 
     File Name  : Get LDAP Server from Domain
-    Author     : Bernardo (BNTHD)
+    Author     : Bernardo (BTNHD)
 .LINK 
 
 #> 
