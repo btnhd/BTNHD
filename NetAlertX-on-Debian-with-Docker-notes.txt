@@ -1,0 +1,99 @@
+#vmware tools
+sudo apt update
+sudo apt install -y open-vm-tools
+sudo systemctl enable --now open-vm-tools
+
+#update debian vm
+sudo apt update
+sudo apt upgrade -y
+
+#isntall prerequisites
+sudo apt install -y ca-certificates curl gnupg
+
+Add Docker Official Repository:
+#Create the keyring directory
+sudo install -m 0755 -d /etc/apt/keyrings
+
+#Add Docker GPG key:
+curl -fsSL https://download.docker.com/linux/debian/gpg | \
+sudo gpg --dearmor -o /etc/apt/keyrings/docker.gpg
+
+#Set permissions:
+sudo chmod a+r /etc/apt/keyrings/docker.gpg
+
+#Add the repository:
+echo \
+"deb [arch=$(dpkg --print-architecture) signed-by=/etc/apt/keyrings/docker.gpg] \
+https://download.docker.com/linux/debian \
+$(. /etc/os-release && echo $VERSION_CODENAME) stable" | \
+sudo tee /etc/apt/sources.list.d/docker.list > /dev/null
+
+#Update again:
+sudo apt update
+
+Install Docker
+sudo apt install -y docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin
+
+Verify Docker Works
+docker --version
+
+Allow Docker Without sudo (Recommended)
+sudo usermod -aG docker $USER
+
+newgrp docker
+
+Verify Docker Service
+sudo systemctl status docker
+
+sudo systemctl enable docker
+
+Install Docker Compose (Already Included)
+docker compose version
+
+NetAlertX (build)
+sudo mkdir -p /opt/netalertx/data
+cd /opt/netalertx
+sudo nano docker-compose.yml
+docker compose up -d
+
+
+[docker-compose.yml]
+services:
+  netalertx:
+    container_name: netalertx
+    image: ghcr.io/netalertx/netalertx:latest
+    network_mode: host
+    read_only: true
+
+    cap_drop:
+      - ALL
+    cap_add:
+      - NET_ADMIN
+      - NET_RAW
+      - NET_BIND_SERVICE
+      - CHOWN
+      - SETUID
+      - SETGID
+
+    volumes:
+      - /opt/netalertx/data:/data:rw
+      - /etc/localtime:/etc/localtime:ro
+
+    tmpfs:
+      - "/tmp:uid=20211,gid=20211,mode=1700,rw,noexec,nosuid,nodev"
+
+    environment:
+      LISTEN_ADDR: 0.0.0.0
+      PORT: 20211
+      GRAPHQL_PORT: 20212
+
+    restart: unless-stopped
+
+
+*** http://<debian-vm-ip>:20211
+
+Quick sanity checks in the Debian VM
+Make sure the VM can see the LAN and ARP table populates:
+ip a
+ip r
+arp -a
