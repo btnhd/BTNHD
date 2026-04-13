@@ -63,6 +63,7 @@ Set-PSBreakpoint -Variable currenttime -Mode Read -Action {$global:currenttime =
 $foregroundColor1 = "Green"
 $foregroundColor2 = "Yellow"
 $foregroundColor3 = "Red"
+$foregroundColor4 = "Magenta"
 $writeEmptyLine = "`n"
 $writeSeperatorSpaces = " - "
  
@@ -108,9 +109,6 @@ Invoke-WebRequest -Uri $msSqlCmdLnUtilsUrl -OutFile $msSqlCmdLnUtilsMsi
 Invoke-WebRequest -Uri $adkUrl -OutFile $adkExe
 Invoke-WebRequest -Uri $adkWinPeUrl -OutFile $adkWinPeExe
  
-$visualC2017x86Url = "https://aka.ms/vs/17/release/vc_redist.x86.exe"
-$visualC2017x86Exe = $tempFolder + "VC_redist.x86.exe"
- 
 Write-Host ($writeEmptyLine + "# All .exe and .msi files are available in the $tempFolderName folder" + $writeSeperatorSpaces + $currentTime)`
 -foregroundcolor $foregroundColor2 $writeEmptyLine
   
@@ -118,25 +116,28 @@ Write-Host ($writeEmptyLine + "# All .exe and .msi files are available in the $t
  
 ## Install Microsoft Visual C++ Redistributable (x86)
  
-Start-Process -Wait -FilePath $visualC2017x86Exe -ArgumentList '/S','/v','/qn' -passthru | Out-Null
+Write-Host ($writeEmptyLine + "# Installing Microsoft Visual C++ Redistributable (x86) ... ") -ForegroundColor $foregroundColor4
+Start-Process -Wait -FilePath $visualC2017x86Exe -ArgumentList '/S','/v','/qn','/norestart' -passthru | Out-Null
  
-Write-Host ($writeEmptyLine + "# Microsoft Visual C++ Redistributable installed" + $writeSeperatorSpaces + $currentTime)`
+Write-Host ($writeEmptyLine + "# Microsoft Visual C++ Redistributable x86 installed" + $writeSeperatorSpaces + $currentTime)`
 -foregroundcolor $foregroundColor2 $writeEmptyLine
  
 ## ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
  
 ## Install Microsoft Visual C++ Redistributable (x64)
  
-Start-Process -Wait -FilePath $visualC2017x64Exe -ArgumentList '/S','/v','/qn' -passthru | Out-Null
+Write-Host ($writeEmptyLine + "# Installing Microsoft Visual C++ Redistributable (x64) ... ") -ForegroundColor $foregroundColor4
+Start-Process -Wait -FilePath $visualC2017x64Exe -ArgumentList '/S','/v','/qn','/norestart' -passthru | Out-Null
  
-Write-Host ($writeEmptyLine + "# Microsoft Visual C++ Redistributable installed" + $writeSeperatorSpaces + $currentTime)`
+Write-Host ($writeEmptyLine + "# Microsoft Visual C++ Redistributable x64 installed" + $writeSeperatorSpaces + $currentTime)`
 -foregroundcolor $foregroundColor2 $writeEmptyLine
  
 ## ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
  
 ## Install ODBC Driver for SQL Server
  
-Start-Process msiexec.exe -Wait -ArgumentList '/i "C:\Temp\msodbcsql.msi" /qb IACCEPTMSODBCSQLLICENSETERMS=YES /quiet'
+Write-Host ($writeEmptyLine + "# Installing ODBC Driver for SQL Server ... ") -ForegroundColor $foregroundColor4
+Start-Process msiexec.exe -Wait -ArgumentList '/i "C:\Temp\msodbcsql.msi" REBOOT=ReallySuppress IACCEPTMSODBCSQLLICENSETERMS=YES /qb /quiet'
  
 Write-Host ($writeEmptyLine + "# ODBC Driver for SQL Server installed" + $writeSeperatorSpaces + $currentTime)`
 -foregroundcolor $foregroundColor2 $writeEmptyLine
@@ -145,7 +146,8 @@ Write-Host ($writeEmptyLine + "# ODBC Driver for SQL Server installed" + $writeS
  
 ## Install Microsoft Command Line Utilities 15 for SQL Server
  
-Start-Process msiexec.exe -Wait -ArgumentList '/i "C:\Temp\MsSqlCmdLnUtils.msi" IACCEPTMSSQLCMDLNUTILSLICENSETERMS=YES /qb /quiet'
+Write-Host ($writeEmptyLine + "# Installing Microsoft Command Line Utilities 15 for SQL Server ... ") -ForegroundColor $foregroundColor4
+Start-Process msiexec.exe -Wait -ArgumentList '/i "C:\Temp\MsSqlCmdLnUtils.msi" REBOOT=ReallySuppress IACCEPTMSSQLCMDLNUTILSLICENSETERMS=YES /qb /quiet'
  
 Write-Host ($writeEmptyLine + "# Microsoft Command Line Utilities 15 for SQL Server installed" + $writeSeperatorSpaces + $currentTime)`
 -foregroundcolor $foregroundColor2 $writeEmptyLine
@@ -156,6 +158,7 @@ Write-Host ($writeEmptyLine + "# Microsoft Command Line Utilities 15 for SQL Ser
  
 $setupSwitchesAdk = "/Features OptionId.DeploymentTools /norestart /quiet /ceip off"
  
+Write-Host ($writeEmptyLine + "# Installing Windows Assessment and Deployment Kit (ADK) ... ") -ForegroundColor $foregroundColor4
 Start-Process -FilePath $adkExe -ArgumentList $setupSwitchesAdk -NoNewWindow -Wait
  
 Write-Host ($writeEmptyLine + "# Windows Assessment and Deployment Kit (ADK) installed" + $writeSeperatorSpaces + $currentTime)`
@@ -167,6 +170,7 @@ Write-Host ($writeEmptyLine + "# Windows Assessment and Deployment Kit (ADK) ins
  
 $setupSwitchesPe = "/Features OptionId.WindowsPreinstallationEnvironment /norestart /quiet /ceip off"
  
+Write-Host ($writeEmptyLine + "# Installing WinPE Addon for Windows ADK ... ") -ForegroundColor $foregroundColor4
 Start-Process -FilePath $adkWinPeExe -ArgumentList $setupSwitchesPe -NoNewWindow -Wait
  
 Write-Host ($writeEmptyLine + "# WinPE Addon for Windows ADK installed" + $writeSeperatorSpaces + $currentTime)`
@@ -195,4 +199,14 @@ Write-Host ($writeEmptyLine + "# The script has finished running, and now a serv
  
 # Wait 3 seconds and then restart the server
 Start-Sleep 3
-Restart-Computer -ComputerName localhost
+
+# Prompt user for reboot with a pop-up
+Add-Type -AssemblyName PresentationFramework
+
+$reboot = [System.Windows.MessageBox]::Show('Do you want to reboot now?', 'Reboot Prompt', 'YesNo', 'Question')
+
+if ($reboot -eq 'Yes') {
+    Restart-Computer
+} else {
+    [System.Windows.MessageBox]::Show('Reboot canceled.', 'Reboot Prompt', 'OK', 'Information')
+}
